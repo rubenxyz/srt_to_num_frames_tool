@@ -168,3 +168,8 @@ USER-FILES/07.TEMP/
 USER-FILES/**/.DS_Store
 USER-FILES/03.PROFILES/gpt_image_2x3.yaml
 USER-FILES/03.PROFILES/gpt_image_3x2.yaml
+*.pyc
+.claude/
+.venv/
+.ruff_cache/
+USER-FILES/

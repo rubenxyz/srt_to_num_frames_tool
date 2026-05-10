@@ -130,8 +130,8 @@ def process_srt_file(srt_path: Path, output_base: Path) -> int:
             # Calculate frame duration
             frame_count = calculate_subtitle_frames(subtitle)
             
-            # Write frame count to file
-            write_frame_count_file(output_dir, subtitle.index, frame_count)
+            # Write frame count to file with SRT filename suffix
+            write_frame_count_file(output_dir, subtitle.index, frame_count, srt_path.stem)
             
             print(f"  Subtitle {subtitle.index}: {frame_count} frames")
             processed_count += 1
@@ -142,7 +142,7 @@ def process_srt_file(srt_path: Path, output_base: Path) -> int:
     return processed_count
 
 
-def write_frame_count_file(output_dir: Path, subtitle_index: int, frame_count: int) -> None:
+def write_frame_count_file(output_dir: Path, subtitle_index: int, frame_count: int, srt_filename: str) -> None:
     """
     Write frame count to individual text file.
     
@@ -150,8 +150,9 @@ def write_frame_count_file(output_dir: Path, subtitle_index: int, frame_count: i
         output_dir: Directory to write file to
         subtitle_index: Index number for filename
         frame_count: Number of frames to write
+        srt_filename: SRT filename stem to use as prefix
     """
-    output_file = output_dir / f"{subtitle_index}.txt"
+    output_file = output_dir / f"{srt_filename}_{subtitle_index}.txt"
     with open(output_file, 'w') as f:
         f.write(str(frame_count))
 
@@ -203,7 +204,7 @@ def process_srt_files():
     
     # Create timestamped output directory
     timestamp = datetime.now().strftime("%y%m%d_%H%M%S")
-    output_dir = output_base / timestamp
+    output_dir = output_base / f"{timestamp}_NUM_FRAMES"
     output_dir.mkdir(parents=True, exist_ok=True)
     
     print(f"Output directory: {output_dir}")
